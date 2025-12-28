@@ -228,3 +228,95 @@ schools) show clearer relationships with house prices** than hospital counts, an
 that urban density and educational amenities are important components of
 “livability” in King County.
 
+## Phase 3 – Regression Modeling and Interpretation
+
+In Phase 3, the analysis moves beyond exploratory data analysis and hypothesis testing to examine how livability indicators explain house prices when controlling for structural housing characteristics. Multiple linear regression models are used to quantify the joint effects of housing features and livability-related variables.
+
+> *Note:* The notebook 01_eda.ipynb has been updated to include all Phase 3 analyses, models, and interpretations described below.
+
+---
+
+### 3.1 Baseline Model: Structural Housing Features
+
+As a first step, a baseline multiple linear regression model was estimated using only structural housing features:
+
+- sqft_living
+- bedrooms
+- bathrooms
+- grade
+
+The dependent variable is house price.
+
+*Findings:*
+- The baseline model achieves an R² of approximately *0.54*, indicating that structural characteristics alone explain about 54% of the variation in house prices.
+- sqft_living and grade emerge as the strongest predictors, both with large positive and statistically significant coefficients.
+- The negative coefficients for bedrooms and bathrooms reflect that, after controlling for size and quality, additional rooms may correspond to smaller room sizes or different layouts.
+
+This baseline model provides a reference point for evaluating the added value of livability indicators.
+
+---
+
+### 3.2 Full Model: Structural Features + Livability Indicators
+
+The full model extends the baseline specification by adding ZIP-level livability indicators:
+
+- public_school_count
+- private_school_count
+- hospital_count
+
+*Findings:*
+- The full model achieves an R² of approximately *0.62*, representing a meaningful improvement over the baseline model.
+- This increase in explanatory power suggests that livability indicators contribute additional information beyond structural housing features.
+
+*Key coefficient interpretations:*
+- *Public school count:* Negatively associated with house prices, likely reflecting higher-density or older urban areas rather than school quality itself.
+- *Private school count:* Positively associated with house prices, consistent with private schools clustering in wealthier neighborhoods.
+- *Hospital count:* Positively associated with house prices, though its effect size is smaller relative to school-related indicators and structural features.
+
+---
+
+### 3.3 Model Comparison
+
+Comparing the baseline and full models highlights the role of livability factors:
+
+- *Baseline R²:* ~0.54  
+- *Full Model R²:* ~0.62  
+
+The improvement of roughly *8 percentage points* indicates that livability indicators provide meaningful additional explanatory power when modeling house prices.
+
+---
+
+### 3.4 Log-Price Regression Model
+
+Given the strong right skew in house prices, an additional regression model was estimated using the logarithm of price as the dependent variable.
+
+*Findings:*
+- The log-price model achieves an R² of approximately *0.68*, outperforming both raw-price models.
+- Coefficients can be interpreted as approximate percentage changes, improving interpretability.
+
+*Key insights:*
+- Structural variables (sqft_living, grade) remain dominant predictors.
+- Livability indicators retain their signs and statistical significance:
+  - Public school count is associated with lower prices.
+  - Private school and hospital counts are associated with higher prices.
+- These results are consistent with findings from Phase 2 hypothesis tests, strengthening confidence in the conclusions.
+
+---
+
+### 3.5 Limitations
+
+This analysis is limited to King County and may not generalize to other regions. Gun violence incident data could not be incorporated into regression models due to the absence of ZIP-level identifiers and was therefore treated as contextual information only. Additionally, omitted variables such as income levels, zoning regulations, and neighborhood amenities may influence house prices and are not captured in the current models.
+
+---
+
+### Phase 3 Summary
+
+Overall, Phase 3 demonstrates that while structural housing characteristics remain the primary drivers of house prices, livability indicators—particularly school-related measures—provide meaningful and interpretable additional explanatory power, especially when prices are modeled on a logarithmic scale.
+
+## Project Summary
+
+This project investigates the relationship between housing prices and livability indicators in the United States, with a focused empirical analysis on King County, Washington. The central goal was to examine whether commonly cited livability factors—such as education, healthcare access, and safety—help explain variations in home prices beyond basic structural housing characteristics.
+
+The project began with the collection and integration of multiple publicly available datasets, including housing transactions, public and private school locations, hospital locations, and gun violence incidents. To ensure geographic consistency and data quality, the analysis was restricted to King County, where reliable ZIP-level alignment was possible for housing, school, and hospital data. Gun violence data, which lacked ZIP-level identifiers, was analyzed separately to provide contextual safety insights rather than being directly merged into the pricing models.
+
+Overall, the results suggest that while physical housing characteristics remain the dominant determinants of home prices, livability indicators—particularly education-related measures—play a significant and interpretable role in shaping housing values. The project highlights the importance of considering both structural and contextual factors when analyzing housing markets and demonstrates how data integration and multivariate analysis can yield deeper insights into regional price differences.
